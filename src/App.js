@@ -9,7 +9,7 @@ function App() {
   let comp_success = (array) => {
     let p = 0;
     for (let i = 0; i < array.length; i++) {
-      if (array[i].status == "done") {
+      if (array[i].status === "done") {
         p++;
       }
     }
@@ -26,7 +26,7 @@ function App() {
       body: JSON.stringify({ Title: Title, discription: discription }),
     });
     const task = await response.json();
-    if(response.status==200)
+    if(response.status===200) 
     {console.log(task);
     for (let i = 0; i < tasks.length; i++) {
       let element = tasks[i];
@@ -36,9 +36,10 @@ function App() {
       }
     }
     let newtask = tasks.slice();
-    settasks(newtask);}
+    settasks(newtask);
+    notification("selected task updated successfully")}
     else {
-      console.log("plese try again");
+      notification("plese try again");
     }
   };
 
@@ -51,8 +52,8 @@ function App() {
         "Content-Type": "application/json",
       },
     });
-    await response.json();
-    if (response.status==200)
+    let data = await response.json();
+    if (response.status===200)
     {for (let i = 0; i < tasks.length; i++) {
       let element = tasks[i];
       if (element._id === id) {
@@ -62,9 +63,10 @@ function App() {
     let newtask = tasks.slice();
     console.log(newtask);
     settasks(newtask);
-    comp_success(newtask);}
+    comp_success(newtask);
+   notification(data)}
     else {
-      console.log("please try once again")
+      notification("please try once again")
     }
   };
   let handleDelete = async (e) => {
@@ -77,14 +79,15 @@ function App() {
       },
     });
     await response.json();
-    if (response.status==200)
+    if (response.status===200)
     {let newtask = tasks.filter((e) => {
       return e._id !== id;
     });
     settasks(newtask);
-    comp_success(newtask);}
+    comp_success(newtask);
+     notification("deleted selected task successfully")}
     else {
-      console.log("plese try once again")
+      notification("plese try once again")
     }
   };
   let addtask = async (Title, discription) => {
@@ -96,14 +99,23 @@ function App() {
       body: JSON.stringify({ Title: Title, discription: discription }),
     });
     const task = await response.json();
-    if(response.status==200)
+    if(response.status===200)
     {let newTask = tasks.concat(task);
     settasks(newTask);
-    comp_success(newTask);}
+    comp_success(newTask);
+    notification("task added succesfully")}
     else {
-      console.log("plese try once again");
+      notification("plese try once again");
     }
+    
   };
+  let [notify,setnotify]=useState(null);
+  let notification =(message)=>{
+    setnotify(message);
+    setTimeout(() => {
+      setnotify(null)
+    }, 3000);
+  }
   return (
     <>
       <taskcontext.Provider
@@ -116,9 +128,15 @@ function App() {
           handleupdate,
           success,
           comp_success,
+          notification
         }}
       >
         <Navbar />
+        {notify&&
+          <div className="alert alert-primary" role="alert">
+          {notify}
+        </div>
+        }
         <Addtask />
         <Tasks />
       </taskcontext.Provider>
