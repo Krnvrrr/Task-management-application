@@ -10,9 +10,11 @@ export default function Addtask() {
    }
    let onclick=()=>{
     if(task.Title.length&&task.discription.length)
-    {addtask(task.Title,task.discription)}
+    {addtask(task.Title,task.discription)
+     settask({Title:"",discription:""})}
     else {
       console.log("no blank entry accepted ")
+      settask({Title:"",discription:""})
     }
    }
   return (
