@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose')
 
-const mongoURI = 'mongodb://127.0.0.1:27017/tasks';
+const mongoURI = 'mongodb+srv://tasker:task%40321@cluster0.j9lfbj6.mongodb.net/task';
 
 const connectToMongo=()=>{
     mongoose.connect(mongoURI)
