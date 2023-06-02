@@ -21,7 +21,7 @@ const data = {
   return (
     <div className="p-3 text-center" style={{maxWidth:'300px'}}>
       <Pie id="chart" data={data} />
-      <p>You have completed {Number(success)}% of your tasks</p>
+      <p>You have completed {parseInt(success)}% of your tasks</p>
     </div>
   );
 };
